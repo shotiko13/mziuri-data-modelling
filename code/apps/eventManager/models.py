@@ -30,7 +30,9 @@ class Customer(models.Model):
         TODO: Write a query using F expressions to update all customers' usernames 
         to match their email addresses.
         """
-        pass
+        Customer.objects.update(
+            username = F("email")
+        )
 
     @staticmethod
     def deactivate_customers_with_short_usernames(min_length):
@@ -39,6 +41,7 @@ class Customer(models.Model):
         username length is less than a specified minimum length.
         """
         pass
+
 
     get_full_name.verbose_name = "სრული სახელი"
 
@@ -69,7 +72,11 @@ class Stadium(models.Model):
         TODO: Write a query using F expressions to double the capacity of stadiums 
         whose current capacity is greater than a specified minimum value.
         """
-        pass
+        Stadium.objects.filter(
+            capacity__gt=min_capacity
+        ).update(
+            capacity=F("capacity") * 2
+        )
 
     @staticmethod
     def increase_capacity_by_sold_tickets(event_id):
@@ -77,7 +84,11 @@ class Stadium(models.Model):
         TODO: Write a query using F expressions to increase the capacity of the stadium 
         for a specific event by the number of tickets sold for that event.
         """
-        pass
+        Stadium.objects.filter(
+            id=Event.objects.get(id=event_id).stadium.id
+        ).update(
+            capacity=F("capacity") + Ticket.objects.filter(event__id=event_id).count()
+        )
 
 class Event(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
