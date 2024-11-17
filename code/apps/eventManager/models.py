@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, F
 from django.utils.timezone import now
 from datetime import timedelta
 
@@ -25,26 +25,18 @@ class Customer(models.Model):
         pass
 
     @staticmethod
-    def customers_with_email_or_username(email_or_username):
+    def update_username_to_email():
         """
-        TODO: Write a query using Q objects to return customers whose email 
-        OR username matches a given string (case-insensitive).
-        """
-        pass
-
-    @staticmethod
-    def inactive_customers_registered_after(date):
-        """
-        TODO: Write a query using Q objects to return all inactive customers 
-        who registered after a specific date.
+        TODO: Write a query using F expressions to update all customers' usernames 
+        to match their email addresses.
         """
         pass
 
     @staticmethod
-    def customers_with_similar_emails(email_part):
+    def deactivate_customers_with_short_usernames(min_length):
         """
-        TODO: Write a query using Q objects to return customers whose email 
-        contains a specific part (case-insensitive), but only if the email ends with '.com'.
+        TODO: Write a query using F expressions to deactivate customers whose 
+        username length is less than a specified minimum length.
         """
         pass
 
@@ -72,26 +64,18 @@ class Stadium(models.Model):
         pass
 
     @staticmethod
-    def stadiums_with_capacity_in_range(min_capacity, max_capacity):
+    def double_capacity_for_large_stadiums(min_capacity):
         """
-        TODO: Write a query using Q objects to return stadiums whose capacity is 
-        BETWEEN a specified minimum and maximum value.
-        """
-        pass
-
-    @staticmethod
-    def stadiums_not_in_city(city):
-        """
-        TODO: Write a query using Q objects to return stadiums that are NOT 
-        located in a specific city.
+        TODO: Write a query using F expressions to double the capacity of stadiums 
+        whose current capacity is greater than a specified minimum value.
         """
         pass
 
     @staticmethod
-    def stadiums_in_city_or_high_capacity(city, min_capacity):
+    def increase_capacity_by_sold_tickets(event_id):
         """
-        TODO: Write a query using Q objects to return stadiums located in a 
-        specific city OR with a capacity greater than a specified amount.
+        TODO: Write a query using F expressions to increase the capacity of the stadium 
+        for a specific event by the number of tickets sold for that event.
         """
         pass
 
@@ -105,34 +89,26 @@ class Event(models.Model):
         return self.name
 
     @staticmethod
-    def events_in_year_or_active(year):
+    def extend_event_dates_by_days(days):
         """
-        TODO: Write a query using Q objects to return events that either 
-        occur in a specified year OR are active.
-        """
-        pass
-
-    @staticmethod
-    def events_in_stadium_with_min_capacity(stadium_name, min_capacity):
-        """
-        TODO: Write a query using Q objects to return events taking place at 
-        a specified stadium where the stadium capacity is greater than a specified amount.
+        TODO: Write a query using F expressions to extend the dates of all events 
+        by a specified number of days.
         """
         pass
 
     @staticmethod
-    def events_not_active_or_past():
+    def deactivate_past_events():
         """
-        TODO: Write a query using Q objects to return events that are either 
-        NOT active OR have a date in the past.
+        TODO: Write a query using F expressions to mark events as inactive if their 
+        date is in the past.
         """
         pass
 
     @staticmethod
-    def events_with_keyword_and_date_range(keyword, start_date, end_date):
+    def adjust_event_name_with_stadium_name():
         """
-        TODO: Write a query using Q objects to return events whose name contains 
-        a specific keyword (case-insensitive) AND occur between two specified dates.
+        TODO: Write a query using F expressions to append the stadium name 
+        to the event name for all events.
         """
         pass
 
@@ -161,17 +137,17 @@ class Ticket(models.Model):
         pass
 
     @staticmethod
-    def tickets_by_customer_with_event_in_year(customer_id, year):
+    def apply_bulk_discount_to_recent_tickets(days=30, discount_percent=10):
         """
-        TODO: Write a query using Q objects to return tickets bought by a specific 
-        customer for events occurring in a specified year.
+        TODO: Write a query using F expressions to reduce the price of tickets 
+        purchased in the last specified number of days by a given percentage.
         """
         pass
 
     @staticmethod
-    def tickets_for_events_with_keyword(keyword):
+    def transfer_tickets_to_another_customer(old_customer_id, new_customer_id):
         """
-        TODO: Write a query using Q objects to return tickets for events 
-        whose names contain a specific keyword (case-insensitive).
+        TODO: Write a query using F expressions to update the customer field 
+        of tickets from one customer to another.
         """
         pass
