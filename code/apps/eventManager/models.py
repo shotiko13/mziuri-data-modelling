@@ -1,6 +1,7 @@
 from django.db import models
-from django.utils import timezone, timesince
-from datetime import datetime
+from django.db.models import Q
+from django.utils.timezone import now
+from datetime import timedelta
 
 class Customer(models.Model):
     username = models.CharField(max_length=100, verbose_name="იუზერნეიმი")
@@ -15,23 +16,36 @@ class Customer(models.Model):
         return f"{self.first_name} ".strip() or self.email
 
     @staticmethod
-    def username_contains_string(contained_string):
-        # TODO: Filter customers where username contains a specific string
+    def username_contains_string_and_is_active(contained_string):
+        """
+        TODO: Write a query using Q objects to filter customers 
+        whose usernames contain a specific string (case-insensitive) 
+        AND who are active.
+        """
         pass
 
     @staticmethod
-    def active_customers():
-        # TODO: Get all active customers
+    def customers_with_email_or_username(email_or_username):
+        """
+        TODO: Write a query using Q objects to return customers whose email 
+        OR username matches a given string (case-insensitive).
+        """
         pass
 
     @staticmethod
-    def customers_registered_after(date):
-        # TODO: Get all customers who registered after a specific date
+    def inactive_customers_registered_after(date):
+        """
+        TODO: Write a query using Q objects to return all inactive customers 
+        who registered after a specific date.
+        """
         pass
 
     @staticmethod
-    def customer_with_email(email):
-        # TODO: Retrieve a customer by email
+    def customers_with_similar_emails(email_part):
+        """
+        TODO: Write a query using Q objects to return customers whose email 
+        contains a specific part (case-insensitive), but only if the email ends with '.com'.
+        """
         pass
 
     get_full_name.verbose_name = "სრული სახელი"
@@ -50,23 +64,35 @@ class Stadium(models.Model):
         return self.name
 
     @staticmethod
-    def get_stadium_by_stadium_name(name):
-        # TODO: Retrieve a stadium by its name
+    def stadiums_with_name_and_capacity(name, min_capacity):
+        """
+        TODO: Write a query using Q objects to return stadiums whose name contains 
+        a specific string (case-insensitive) AND whose capacity is greater than a specified amount.
+        """
         pass
 
     @staticmethod
-    def stadiums_with_capacity_greater_than(capacity):
-        # TODO: Get all stadiums with a capacity greater than the specified amount
+    def stadiums_with_capacity_in_range(min_capacity, max_capacity):
+        """
+        TODO: Write a query using Q objects to return stadiums whose capacity is 
+        BETWEEN a specified minimum and maximum value.
+        """
         pass
 
     @staticmethod
-    def stadiums_in_city(city):
-        # TODO: Get all stadiums located in a specific city
+    def stadiums_not_in_city(city):
+        """
+        TODO: Write a query using Q objects to return stadiums that are NOT 
+        located in a specific city.
+        """
         pass
 
     @staticmethod
-    def stadiums_with_events():
-        # TODO: Get stadiums that are associated with any event
+    def stadiums_in_city_or_high_capacity(city, min_capacity):
+        """
+        TODO: Write a query using Q objects to return stadiums located in a 
+        specific city OR with a capacity greater than a specified amount.
+        """
         pass
 
 class Event(models.Model):
@@ -79,23 +105,35 @@ class Event(models.Model):
         return self.name
 
     @staticmethod
-    def event_after_year(year):
-        # TODO: Get events occurring after a specific year
+    def events_in_year_or_active(year):
+        """
+        TODO: Write a query using Q objects to return events that either 
+        occur in a specified year OR are active.
+        """
         pass
 
     @staticmethod
-    def events_at_stadium(stadium_name):
-        # TODO: Get all events taking place at a specified stadium
+    def events_in_stadium_with_min_capacity(stadium_name, min_capacity):
+        """
+        TODO: Write a query using Q objects to return events taking place at 
+        a specified stadium where the stadium capacity is greater than a specified amount.
+        """
         pass
 
     @staticmethod
-    def upcoming_events():
-        # TODO: Get all events with a date in the future
+    def events_not_active_or_past():
+        """
+        TODO: Write a query using Q objects to return events that are either 
+        NOT active OR have a date in the past.
+        """
         pass
 
     @staticmethod
-    def active_events():
-        # TODO: Get all events that are currently active
+    def events_with_keyword_and_date_range(keyword, start_date, end_date):
+        """
+        TODO: Write a query using Q objects to return events whose name contains 
+        a specific keyword (case-insensitive) AND occur between two specified dates.
+        """
         pass
 
 class Ticket(models.Model):
@@ -107,21 +145,33 @@ class Ticket(models.Model):
         return f"{self.customer} -- {self.event}"
 
     @staticmethod
-    def tickets_by_customer(customer_id):
-        # TODO: Get all tickets bought by a specific customer
+    def tickets_by_customer_or_event(customer_id, event_id):
+        """
+        TODO: Write a query using Q objects to return tickets bought by a 
+        specific customer OR for a specific event.
+        """
         pass
 
     @staticmethod
-    def tickets_for_event(event_id):
-        # TODO: Get all tickets for a specified event
+    def recent_tickets_excluding_event(event_id, days=30):
+        """
+        TODO: Write a query using Q objects to return tickets purchased 
+        in the last specified number of days, but exclude those for a specified event.
+        """
         pass
 
     @staticmethod
-    def recent_tickets(days=30):
-        # TODO: Get all tickets purchased within the last specified number of days
+    def tickets_by_customer_with_event_in_year(customer_id, year):
+        """
+        TODO: Write a query using Q objects to return tickets bought by a specific 
+        customer for events occurring in a specified year.
+        """
         pass
 
     @staticmethod
-    def ticket_count_for_event(event_id):
-        # TODO: Get the count of tickets sold for a specific event
+    def tickets_for_events_with_keyword(keyword):
+        """
+        TODO: Write a query using Q objects to return tickets for events 
+        whose names contain a specific keyword (case-insensitive).
+        """
         pass
