@@ -105,6 +105,7 @@ class Event(models.Model):
         TODO: Write a query using F expressions to extend the dates of all events 
         by a specified number of days.
         """
+        #test
         pass
 
     @staticmethod
