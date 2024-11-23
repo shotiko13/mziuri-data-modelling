@@ -30,9 +30,7 @@ class Customer(models.Model):
         TODO: Write a query using F expressions to update all customers' usernames 
         to match their email addresses.
         """
-        Customer.objects.update(
-            username = F("email")
-        )
+        pass
 
     @staticmethod
     def deactivate_customers_with_short_usernames(min_length):
@@ -42,6 +40,33 @@ class Customer(models.Model):
         """
         pass
 
+    @staticmethod
+    def load_customers_without_email():
+        """
+        TODO: Write a query using defer() to load customers without retrieving their email field.
+        """
+        pass
+
+    @staticmethod
+    def customers_with_active_status_raw(active=True):
+        """
+        TODO: Write a raw SQL query to return customers based on their active status.
+        """
+        pass
+
+    @staticmethod
+    def get_first_n_customers(n):
+        """
+        TODO: Write a query to retrieve the first n customers using queryset slicing.
+        """
+        pass
+
+    @staticmethod
+    def sort_customers_by_username():
+        """
+        TODO: Write a query using order_by() to sort customers by their username in ascending order.
+        """
+        pass
 
     get_full_name.verbose_name = "სრული სახელი"
 
@@ -72,11 +97,7 @@ class Stadium(models.Model):
         TODO: Write a query using F expressions to double the capacity of stadiums 
         whose current capacity is greater than a specified minimum value.
         """
-        Stadium.objects.filter(
-            capacity__gt=min_capacity
-        ).update(
-            capacity=F("capacity") * 2
-        )
+        pass
 
     @staticmethod
     def increase_capacity_by_sold_tickets(event_id):
@@ -84,11 +105,35 @@ class Stadium(models.Model):
         TODO: Write a query using F expressions to increase the capacity of the stadium 
         for a specific event by the number of tickets sold for that event.
         """
-        Stadium.objects.filter(
-            id=Event.objects.get(id=event_id).stadium.id
-        ).update(
-            capacity=F("capacity") + Ticket.objects.filter(event__id=event_id).count()
-        )
+        pass
+
+    @staticmethod
+    def load_stadiums_without_address():
+        """
+        TODO: Write a query using defer() to load stadiums without retrieving their address field.
+        """
+        pass
+
+    @staticmethod
+    def stadiums_filtered_by_capacity_raw(min_capacity):
+        """
+        TODO: Write a raw SQL query to return stadiums with a capacity greater than a specified value.
+        """
+        pass
+
+    @staticmethod
+    def get_top_n_stadiums_by_capacity(n):
+        """
+        TODO: Write a query to retrieve the top n stadiums sorted by capacity in descending order.
+        """
+        pass
+
+    @staticmethod
+    def sort_stadiums_by_name():
+        """
+        TODO: Write a query using order_by() to sort stadiums by their name in ascending order.
+        """
+        pass
 
 class Event(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
@@ -105,7 +150,6 @@ class Event(models.Model):
         TODO: Write a query using F expressions to extend the dates of all events 
         by a specified number of days.
         """
-        #test
         pass
 
     @staticmethod
@@ -121,6 +165,34 @@ class Event(models.Model):
         """
         TODO: Write a query using F expressions to append the stadium name 
         to the event name for all events.
+        """
+        pass
+
+    @staticmethod
+    def load_events_without_stadium():
+        """
+        TODO: Write a query using defer() to load events without retrieving the stadium field.
+        """
+        pass
+
+    @staticmethod
+    def events_with_date_in_future_raw():
+        """
+        TODO: Write a raw SQL query to return events whose date is in the future.
+        """
+        pass
+
+    @staticmethod
+    def get_upcoming_events(limit):
+        """
+        TODO: Write a query to retrieve a limited number of upcoming events sorted by date.
+        """
+        pass
+
+    @staticmethod
+    def sort_events_by_name():
+        """
+        TODO: Write a query using order_by() to sort events by their name in ascending order.
         """
         pass
 
@@ -161,5 +233,33 @@ class Ticket(models.Model):
         """
         TODO: Write a query using F expressions to update the customer field 
         of tickets from one customer to another.
+        """
+        pass
+
+    @staticmethod
+    def load_tickets_without_event():
+        """
+        TODO: Write a query using defer() to load tickets without retrieving the event field.
+        """
+        pass
+
+    @staticmethod
+    def tickets_for_event_raw(event_id):
+        """
+        TODO: Write a raw SQL query to return tickets for a specific event.
+        """
+        pass
+
+    @staticmethod
+    def get_recent_tickets(limit):
+        """
+        TODO: Write a query to retrieve a limited number of recent tickets sorted by purchase date.
+        """
+        pass
+
+    @staticmethod
+    def sort_tickets_by_customer_name():
+        """
+        TODO: Write a query using order_by() to sort tickets by the customer name in ascending order.
         """
         pass
