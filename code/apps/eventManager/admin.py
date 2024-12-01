@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import Stadium, Event, Ticket, Customer
+from .models import Stadium, Event, Ticket, Customer, OrganizerCompany
 
 @admin.register(Stadium)
 class StadiumAdmin(admin.ModelAdmin):
@@ -27,3 +27,8 @@ class TicketAdmin(admin.ModelAdmin):
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('username', 'email')
+
+@admin.register(OrganizerCompany)
+class OrganizerCompanyAdmin(admin.ModelAdmin):
+    list_display = ("name", "address")
+    filter_horizontal = ("events_organized",)
