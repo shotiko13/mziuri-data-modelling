@@ -1,6 +1,7 @@
 from django.db import models
-from django.utils.timezone import now
+from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Q, F
 
 
 class Customer(models.Model):
@@ -34,16 +35,27 @@ class Stadium(models.Model):
         """
         Retrieve events held in stadiums with capacity greater than a specified value.
         """
-        events = Event.objects.select_related("stadium").filter(stadium__capacity__gt=min_capacity)
-        return events
+        pass
 
     @staticmethod
     def average_capacity_of_stadiums():
         """
         Calculate the average capacity of all stadiums.
         """
-        avg = Stadium.objects.aggregate(avg_capacity=models.Avg("capacity"))
-        return avg
+        pass
+    
+    @staticmethod
+    def stadiums_with_high_or_low_capacity(threshold):
+        """
+        Retrieve stadiums with either very high or very low capacity.
+        """
+        pass
+    @staticmethod
+    def stadium_capacity_difference(threshold):
+        """
+        Retrieve stadiums where the capacity exceeds or falls short of the given threshold.
+        """
+        pass  # Use F to compare capacity to threshold.
 
 class Event(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
@@ -59,27 +71,44 @@ class Event(models.Model):
         """
         Retrieve all events with their associated stadium details.
         """
-        events_with_stadiums = Event.objects.select_related("stadium").all()
-        return events_with_stadiums
+        pass
 
     @staticmethod
     def events_with_ticket_count():
         """
         Retrieve events with the number of tickets sold for each event.
         """
-        return Event.objects.annotate(ticket_count=models.Count("ticket")).order_by("-ticket_count")
+        pass
 
     @staticmethod
     def active_events_by_month():
         """
         Count active events grouped by the month of their date.
         """
-        return (
-            Event.objects.filter(is_active=True)
-            .annotate(month=models.functions.ExtractMonth("date"))
-            .annotate(event_count=models.Count("id"))
-            .order_by("month")
-        )
+        pass
+
+    @staticmethod
+    def events_on_specific_days(start_date, end_date):
+        """
+        Retrieve events scheduled within a specific date range or on a certain day.
+        """
+        pass
+
+    @staticmethod
+    def events_with_large_attendance_and_active(threshold):
+        """
+        Retrieve active events with a minimum attendance threshold.
+        """
+        pass
+
+    @staticmethod
+    def events_duration_check():
+        """
+        Retrieve events where the date is within a certain range using a calculation.
+        """
+
+        pass  # Use F to calculate fields like duration or date differences.
+
 
 
 class Ticket(models.Model):
@@ -95,37 +124,56 @@ class Ticket(models.Model):
         """
         Retrieve tickets with their related customer and event data.
         """
-        tickets = Ticket.objects.select_related("customer", "event").all()
-        return tickets
+        pass
 
     @staticmethod
     def tickets_for_customer(customer_id):
         """
         Retrieve tickets for a specific customer with event details.
         """
-        tickets = Ticket.objects.select_related("event").filter(customer_id=customer_id)
-        return tickets
+        pass
 
     @staticmethod
     def total_tickets_sold():
         """
         Calculate the total number of tickets sold.
         """
-        return Ticket.objects.aggregate(total_sold=models.Count("id"))
+        pass
 
     @staticmethod
     def average_tickets_per_event():
         """
         Calculate the average number of tickets sold per event.
         """
-        return Ticket.objects.aggregate(avg_tickets=models.Avg("id"))
+        pass
 
     @staticmethod
     def tickets_per_event():
         """
         Retrieve the number of tickets sold for each event.
         """
-        return Ticket.objects.values("event__name").annotate(ticket_count=models.Count("id"))
+        pass
+
+    @staticmethod
+    def tickets_in_date_range_or_customer(date_range, customer_id):
+        """
+        Retrieve tickets sold within a date range or for a specific customer.
+        """
+        pass  # Use Q for OR condition on date range and customer ID.
+
+    @staticmethod
+    def tickets_older_than_year():
+        """
+        Retrieve tickets purchased more than a year ago.
+        """
+        pass
+
+    @staticmethod
+    def ticket_bought_recently_with_field_comparison():
+        """
+        Retrieve tickets where the bought_at field matches a certain condition with another field.
+        """
+        pass  # Use F to compare fields.
 
 
 class OrganizerCompany(models.Model):
@@ -141,30 +189,49 @@ class OrganizerCompany(models.Model):
         """
         Retrieve organizer companies with the events they organize.
         """
-        companies = OrganizerCompany.objects.prefetch_related("events_organized").all()
-        return companies
+        pass
 
     @staticmethod
     def companies_for_event(event_id):
         """
         Retrieve companies organizing a specific event.
         """
-        companies = OrganizerCompany.objects.filter(events_organized__id=event_id).distinct()
-        return companies
+        pass
 
     @staticmethod
     def company_event_count():
         """
         Retrieve companies with the count of events they have organized.
         """
-        return OrganizerCompany.objects.annotate(event_count=models.Count("events_organized")).order_by("-event_count")
+        pass
 
     @staticmethod
     def average_events_per_company():
         """
         Calculate the average number of events organized per company.
         """
-        return OrganizerCompany.objects.aggregate(avg_events=models.Avg("events_organized"))
+        pass
+
+    @staticmethod
+    def companies_with_events_in_large_stadiums_or_high_capacity(min_capacity):
+        """
+        Retrieve companies organizing events in large stadiums or with high capacity events.
+        """
+        pass  # Use Q for complex filtering.
+
+    @staticmethod
+    def company_event_relationship_based_on_date():
+        """
+        Retrieve companies with events scheduled after a specific date and address matching criteria.
+        """
+        pass  # Use Q for multiple field conditions.
+
+    @staticmethod
+    def companies_with_address_as_event_attribute():
+        """
+        Retrieve companies where the address matches an attribute of their events.
+        """
+        pass  # Use F to compare fields.
 
     class Meta:
         verbose_name = "ორგანიზატორი კომპანია"
