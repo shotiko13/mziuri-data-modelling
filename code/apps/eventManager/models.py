@@ -16,6 +16,13 @@ class Customer(models.Model):
     def get_full_name(self):
         return f"{self.first_name} ".strip() or self.email
 
+    def tojson(self):
+        return {
+            "username": self.username,
+            "first_name": self.first_name,
+            "email": self.email,
+        }
+
     class Meta:
         ordering = ("-id",)
         verbose_name = "მომხმარებელი"
@@ -30,12 +37,19 @@ class Stadium(models.Model):
     def __str__(self):
         return self.name
 
+    def tojson(self):
+        return {
+            "name": self.name,
+            "address": self.address,
+            "capacity": self.capacity
+        }
+
     @staticmethod
     def events_in_large_stadiums(min_capacity):
         """
         Retrieve events held in stadiums with capacity greater than a specified value.
         """
-        pass
+        return Stadium.objects.filter(capacity__gt=min_capacity)
 
     @staticmethod
     def average_capacity_of_stadiums():
@@ -43,7 +57,7 @@ class Stadium(models.Model):
         Calculate the average capacity of all stadiums.
         """
         pass
-    
+
     @staticmethod
     def stadiums_with_high_or_low_capacity(threshold):
         """
@@ -65,6 +79,14 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def tojson(self):
+        return {
+            "name": self.name,
+            "date": self.date,
+            "stadium": self.stadium.tojson() if self.stadium else None,
+            "is_active": self.is_active,
+        }
 
     @staticmethod
     def events_with_stadium_details():
@@ -119,19 +141,26 @@ class Ticket(models.Model):
     def __str__(self) -> str:
         return f"{self.customer} -- {self.event}"
 
+    def tojson(self):
+        return {
+            "customer": self.customer.tojson(),
+            "customer_id": self.customer.id,
+            "bought_at": self.bought_at,
+        }
+
     @staticmethod
     def tickets_with_customer_and_event():
         """
         Retrieve tickets with their related customer and event data.
         """
-        pass
+        return Ticket.objects.select_related("customer", "event").all()
 
     @staticmethod
     def tickets_for_customer(customer_id):
         """
         Retrieve tickets for a specific customer with event details.
         """
-        pass
+        return Ticket.objects.filter(customer__id=customer_id).select_related("event")
 
     @staticmethod
     def total_tickets_sold():
